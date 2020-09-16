@@ -13,18 +13,32 @@ const Chart = () => {
     };
 
     fetchAPI();
-  });
+  }, []);
 
   const lineChart = dailyData[0] ? (
     <Line
       data={{
-        labels: "",
-        datasets: [{}, {}],
+        labels: dailyData(({ date }) => date),
+        datasets: [
+          {
+            data: dailyData(({ confirmed }) => confirmed),
+            label: "Infected",
+            borderColor: "#3333ff",
+            fill: true,
+          },
+          {
+            data: dailyData(({ deaths }) => deaths),
+            label: "Deaths",
+            borderColor: "red",
+            backgroundColor: "rgba(255, 0, 0, 0.5)",
+            fill: true,
+          },
+        ],
       }}
     />
   ) : null;
 
-  return <h1>Chart</h1>;
+  return <div className={styles.container}>{lineChart}</div>;
 };
 
 export default Chart;
